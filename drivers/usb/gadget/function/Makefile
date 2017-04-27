@@ -58,7 +58,7 @@ usb_f_adb-y			:= f_adb.o
 obj-$(CONFIG_USB_CONFIGFS_F_ADB)+= usb_f_adb.o
 usb_f_tcm-y			:= f_tcm.o
 obj-$(CONFIG_USB_F_TCM)		+= usb_f_tcm.o
-ifeq ($(CONFIG_USB_ANDROID_SAMSUNG_COMPOSITE),y)
+ifeq ($(CONFIG_USB_ANDROID_SAMSUNG_MTP),y)
 usb_f_mtp_samsung-y     := f_mtp_samsung.o
 obj-$(CONFIG_USB_F_MTP) += usb_f_mtp_samsung.o
 else
