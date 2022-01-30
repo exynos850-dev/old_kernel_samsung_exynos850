@@ -1926,15 +1926,15 @@ static int sm5714_fg_get_property(struct power_supply *psy,
 			SEC_FUELGAUGE_CAPACITY_TYPE_DYNAMIC_SCALE))
 			sm5714_fg_get_scaled_capacity(fuelgauge, val);
 
-			/* capacity should be between 0% and 100%
-			* (0.1% degree)
-			*/
-			if (val->intval > 1000)
-				val->intval = 1000;
-			if (val->intval < 0)
-				val->intval = 0;
+		/* capacity should be between 0% and 100%
+		* (0.1% degree)
+		*/
+		if (val->intval > 1000)
+			val->intval = 1000;
+		if (val->intval < 0)
+			val->intval = 0;
 
-			fuelgauge->raw_capacity = val->intval;
+		fuelgauge->raw_capacity = val->intval;
 
 			/* get only integer part */
 			val->intval /= 10;
