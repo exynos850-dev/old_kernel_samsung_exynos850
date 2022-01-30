@@ -121,6 +121,7 @@ static int __init enforcing_setup(char *str)
 {
 	unsigned long enforcing;
 	if (!kstrtoul(str, 0, &enforcing))
+	{
 // [ SEC_SELINUX_PORTING_COMMON 
 #ifdef CONFIG_ALWAYS_ENFORCE 
 		selinux_enforcing_boot = 1; 
@@ -130,6 +131,7 @@ static int __init enforcing_setup(char *str)
 		selinux_enforcing = enforcing ? 1 : 0;
 #endif 
 // ] SEC_SELINUX_PORTING_COMMON 
+	}
 	return 1;
 }
 __setup("enforcing=", enforcing_setup);
