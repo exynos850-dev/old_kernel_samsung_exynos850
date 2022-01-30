@@ -38,6 +38,9 @@ fw-external-$(CONFIG_SHUB) += sensorhub/shub_nacho_bl.bin sensorhub/shub_nacho_a
 
 fw-external-$(CONFIG_SENSORS_A96T3X6) += abov/a96t356_m12s.bin abov/a96t356_m12s_sub.bin abov/a96t356_a12_main.bin abov/a96t356_a12_sub.bin
 
+quiet_cmd_ihex  = IHEX    $@
+      cmd_ihex  = $(OBJCOPY) -Iihex -Obinary $< $@
+
 quiet_cmd_fwbin = MK_FW   $@
       cmd_fwbin = FWNAME="$(patsubst firmware/%.gen.S,%,$@)";		     \
 		  FWSTR="$(subst /,_,$(subst .,_,$(subst -,_,$(patsubst	     \
@@ -70,12 +73,20 @@ wordsize_deps := $(wildcard include/config/64bit.h include/config/32bit.h \
 		include/config/x86_32.h include/config/x86_64.h \
 		firmware/Makefile)
 
+# We need to use a relative path for the objtree, fwabs points to the source tree
+# where .bin files are not generated
 $(patsubst %,$(obj)/%.gen.S, $(fw-external-y)): %: $(wordsize_deps) \
 		include/config/extra/firmware/dir.h
-	$(call cmd,fwbin,$(fwabs)/$(patsubst $(obj)/%.gen.S,%,$@))
+	@test -f $(srctree)/$(patsubst %.gen.S,%,$@) && cp -f $(srctree)/$(patsubst %.gen.S,%,$@) $(objtree)/$(patsubst %.gen.S,%,$@) || true
+	$(call cmd,fwbin,$(patsubst %.gen.S,%,$@))
 
 # The .o files depend on the binaries directly; the .S files don't.
-$(patsubst %,$(obj)/%.gen.o, $(fw-external-y)): $(obj)/%.gen.o: $(fwdir)/%
+$(patsubst %,$(obj)/%.gen.o, $(fw-external-y)): %.gen.o: %
+
+# .ihex is used just as a simple way to hold binary files in a source tree
+# where binaries are frowned upon. They are directly converted with objcopy.
+$(obj)/%: $(obj)/%.ihex
+	$(call cmd,ihex)
 
 obj-y				 += $(patsubst %,%.gen.o, $(fw-external-y))
 
