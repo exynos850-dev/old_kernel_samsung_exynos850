@@ -1086,22 +1086,22 @@ static int aw8896_mute(struct snd_soc_dai *dai, int mute, int stream)
 
 	if (mute) {
 
-	if (stream == SNDRV_PCM_STREAM_PLAYBACK)
-		aw8896->pstream = 0;
-	else
-		aw8896->cstream = 0;
-	if (aw8896->pstream != 0 || aw8896->cstream != 0)
-		return 0;
+		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
+			aw8896->pstream = 0;
+		else
+			aw8896->cstream = 0;
+		if (aw8896->pstream != 0 || aw8896->cstream != 0)
+			return 0;
 
 		/* Stop DSP */
 		mutex_lock(&aw8896->lock);
 		aw8896_smartpa_cfg(aw8896, false);
 		mutex_unlock(&aw8896->lock);
 	} else {
-	if (stream == SNDRV_PCM_STREAM_PLAYBACK)
-		aw8896->pstream = 1;
-	else
-		aw8896->cstream = 1;
+		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
+			aw8896->pstream = 1;
+		else
+			aw8896->cstream = 1;
 
 		/* Start DSP */
 		mutex_lock(&aw8896->lock);
