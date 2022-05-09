@@ -2197,6 +2197,11 @@ static void prox_lp_scan_mode(void *device_data)
 		goto out;
 	}
 
+	if (!ts->ear_detect_mode) {
+		input_err(true, &ts->client->dev, "%s: Not EAR_DETECT_MODE!\n", __func__);
+		goto out;
+	}
+
 	if (sec->cmd_param[0] < 0 || sec->cmd_param[0] > 1) {
 		input_err(true, &ts->client->dev, "%s: invalid parameter %d\n",
 			__func__, sec->cmd_param[0]);
