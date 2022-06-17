@@ -1978,6 +1978,30 @@ static void get_threshold(void *device_data)
 	input_info(true, &ts->client->dev, "%s: %s\n", __func__, buff);
 }
 
+static void dummy_func(void *device_data)
+{
+	struct sec_cmd_data *sec = (struct sec_cmd_data *)device_data;
+	struct nvt_ts_data *ts = container_of(sec, struct nvt_ts_data, sec);
+	char buff[SEC_CMD_STR_LEN] = { 0 };
+	int ret;
+
+	sec_cmd_set_default_result(sec);
+
+	mutex_unlock(&ts->lock);
+
+	ret = 1;
+
+	snprintf(buff, sizeof(buff), "%s", ret ? "NG" : "OK");
+
+	sec->cmd_state =  ret ? SEC_CMD_STATUS_FAIL : SEC_CMD_STATUS_OK;
+	sec_cmd_set_cmd_result(sec, buff, strnlen(buff, sizeof(buff)));
+	sec_cmd_set_cmd_exit(sec);
+
+	input_info(true, &ts->client->dev, "%s: %s\n", __func__, buff);
+
+	return;
+}
+
 static void check_connection(void *device_data)
 {
 	struct sec_cmd_data *sec = (struct sec_cmd_data *)device_data;
@@ -5192,6 +5216,7 @@ static struct sec_cmd sec_cmds[] = {
 	{SEC_CMD("get_chip_name", get_chip_name),},
 	{SEC_CMD("get_threshold", get_threshold),},
 	{SEC_CMD("check_connection", check_connection),},
+	{SEC_CMD_H("dummy_func", dummy_func),},
 	{SEC_CMD_H("glove_mode", glove_mode),},
 	{SEC_CMD_H("aot_enable", aot_enable),},
 	{SEC_CMD_H("set_sip_mode", set_sip_mode),},
