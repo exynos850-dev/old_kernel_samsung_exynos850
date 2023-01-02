@@ -63,46 +63,23 @@ config SENSORS_ISG5320A
 	  This option enables grip sensors using
 	  IMAGIS ISG5320A device driver for grip.
 
-#
-# grip sensors configuration
-#
-
-config SENSORS_SX9360
+config SENSORS_ISG5320A_XCOVER5_KOR
 	depends on I2C
-	tristate "SX9360 driver"
+	tristate "ISG5320A grip for xcover5 KOR"
 	default n
 	help
-	  Say Y here if you use sx9360.
-	  This option enables grip sensors using
-	  SemTech sx9360 device driver.
-	  Say N here if you do not use sx9360.
+	  If you say yes here if you use ISG5320A for XCOVER5 KOR.
 
-config SENSORS_SX9360_SUB
+config SENSORS_A96T3X6_M12_ALL
 	depends on I2C
-	tristate "SX9360 sub driver"
+	tristate "A96T3X6 grip frimware for ALL"
 	default n
 	help
-	  Say Y here if you use sx9360 sub.
-	  This option enables grip sensors using
-	  SemTech sx9360 sub device driver.
-	  Say N here if you do not use sx9360 sub.
+	  If you say yes here if you use A96T3X6 for M12 ALL.
 
-config SENSORS_SX9364
+config SENSORS_A96T3X6_M12_KOR
 	depends on I2C
-	tristate "SX9364 driver"
+	tristate "A96T3X6 grip frimware for ALL"
 	default n
 	help
-	  Say Y here if you use sx9364.
-	  This option enables grip sensors using
-	  SemTech sx9360 device driver.
-	  Say N here if you do not use sx9364.
-
-config SENSORS_SX9364_SUB
-	depends on I2C
-	tristate "SX9364_SUB driver"
-	default n
-	help
-	  Say Y here if you use sx9364_sub.
-	  This option enables grip sensors using
-	  SemTech sx9364_sub device driver.
-	  Say N here if you do not use sx9364_sub.
+	  If you say yes here if you use A96T3X6 for M12 KOR.
