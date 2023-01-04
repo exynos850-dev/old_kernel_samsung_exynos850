@@ -1,4 +1,4 @@
-ccflags-y += -Wall
+ccflags-y += -Wall -Wno-unused-but-set-variable
 
 obj-y += ili9881x.o \
 	ili9881x_spi.o \
